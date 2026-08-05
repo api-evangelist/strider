@@ -1,0 +1,75 @@
+generated: '2026-08-05'
+method: probed
+source: >-
+  Observed response semantics of https://app.striderintel.com/app-api/* plus the provider's
+  own RFC 8414 / RFC 9728 discovery documents. Strider publishes no OpenAPI and no public
+  developer reference, so only conventions actually observed on the wire are recorded here.
+authentication:
+  style: OAuth 2.1 bearer token
+  header: 'Authorization: Bearer <token>'
+  challenge_header: WWW-Authenticate
+  challenge_carries_resource_metadata: true
+  detail: authentication/strider-authentication.yml
+transport:
+  mcp:
+    protocol: JSON-RPC 2.0 over HTTP (Model Context Protocol)
+    endpoint: https://app.striderintel.com/app-api/mcp
+    accept: application/json, text/event-stream
+error_envelope:
+  format: proprietary JSON
+  rfc9457: false
+  content_type: application/json; charset=utf-8
+  shape:
+    error: human-readable message
+    code: machine-readable symbolic code
+  observed:
+  - status: 401
+    body: '{"error":"Authentication required","code":"MCP_UNAUTHENTICATED"}'
+    path: /app-api/mcp
+  - status: 404
+    body: '{"message":"Not found"}'
+    path: /mcp
+    note: >-
+      A second, inconsistent envelope shape ({"message": ...}) is used by the platform 404
+      handler, so the error contract is not uniform across the app-api surface.
+request_tracing:
+  header: x-request-id
+  direction: response
+  format: uuid v4
+  example_observed: ae43a0d6-7d2c-4aa2-8f5c-880d8b90efb6
+security_headers:
+  observed:
+  - x-content-type-options: nosniff
+  - x-frame-options: SAMEORIGIN
+  - x-dns-prefetch-control: 'off'
+  - x-download-options: noopen
+  - x-permitted-cross-domain-policies: none
+  - x-xss-protection: '0'
+  note: Helmet-style defaults; HSTS present on app.striderintel.com (max-age 15552000).
+health:
+  endpoint: https://app.striderintel.com/app-api/health
+  status: 200
+  body: '{"status":"healthy"}'
+  authenticated: false
+idempotency:
+  supported: unknown
+  evidence: none
+  note: >-
+    No Idempotency-Key header, no OpenAPI, and no public write-operation reference were
+    found. Idempotency is NOT asserted and no Idempotency pointer is emitted in apis.yml.
+pagination:
+  supported: unknown
+  evidence: none
+versioning:
+  scheme: unknown
+  evidence: >-
+    The MCP endpoint carries no version segment; /app-api/mcp/v1 resolves to the same 401
+    handler as /app-api/mcp, so no versioning scheme can be confirmed anonymously.
+rate_limiting:
+  signalled: unknown
+  evidence: no RateLimit-* or X-RateLimit-* headers observed on anonymous responses
+cross_links:
+  authentication: authentication/strider-authentication.yml
+  conformance: conformance/strider-conformance.yml
+  mcp: mcp/strider-mcp.yml
+  well_known: well-known/strider-well-known.yml

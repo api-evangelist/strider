@@ -1,0 +1,52 @@
+# Strider Technologies
+# https://www.striderintel.com
+
+> Strider Technologies transforms open-source data into AI-powered strategic
+> intelligence to help organizations identify and respond to state-sponsored
+> threats targeting their people, technology, and intellectual property.
+
+## About
+
+Strider Technologies is a strategic intelligence SaaS company. The platform
+helps government agencies, defense contractors, universities, and private
+sector organizations understand and mitigate nation-state threats — primarily
+from China, Russia, North Korea, and Iran — targeting their workforce,
+technology, supply chains, and IP.
+
+Founded by former intelligence community professionals.
+Headquartered in Salt Lake City, Utah, USA.
+
+## Products
+
+### Strider Strategic Intelligence Platform
+- URL: https://www.striderintel.com/strategic-intelligence/
+- The core platform for tailored state-sponsored threat intelligence.
+
+### Insights
+- URL: https://www.striderintel.com/insights/
+- Identify and manage state-sponsored threats across people, networks,
+  technology, and talent flows.
+
+### People Search
+- URL: https://www.striderintel.com/people-search/
+- Screen individuals for nation-state ties and falsified resumes.
+- Detects hidden affiliations, foreign talent recruitment, and credential fraud.
+
+### Organizations Search
+- URL: https://www.striderintel.com/organizations-search/
+- Assess third-party organizations for ties to state-sponsored threats.
+- Supports vendor due diligence and supply chain risk assessments.
+
+### Open Source Software Search
+- URL: https://www.striderintel.com/open-source-software-search/
+- Identify state-sponsored actors contributing to open source libraries.
+- Protects organizations from software supply chain infiltration.
+
+### Strider Shield
+- URL: https://www.striderintel.com/shield/
+- Threat intelligence dataset for SIEM and DLP systems.
+- Flags high-risk emails and domains linked to state-sponsored actors.
+
+### Data Catalog
+- URL: https://www.striderintel.com/data-catalog/
+- Exclusive data assets for customized strategic analysis.

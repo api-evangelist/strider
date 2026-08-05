@@ -1,0 +1,71 @@
+generated: '2026-08-05'
+method: probed
+source: >-
+  Strider's own discovery documents (RFC 8414 / RFC 9728), the observed MCP 401 challenge,
+  and the published trust center at https://trust.striderintel.com/
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    app.striderintel.com serves an RFC 6749/OAuth 2.1 authorization server with
+    authorization, token, registration and revocation endpoints.
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  evidence: https://app.striderintel.com/.well-known/oauth-authorization-server returns 200 application/json
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp returns
+    200 with resource, authorization_servers and resource_name "Strider MCP"
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported = [S256]
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint published at /app-api/mcp/oauth/register
+- id: rfc7009-token-revocation
+  conforms: true
+  evidence: revocation_endpoint published at /app-api/mcp/oauth/revoke
+- id: rfc6750-bearer-token
+  conforms: true
+  evidence: >-
+    401 response carries WWW-Authenticate: Bearer with a resource_metadata parameter
+- id: model-context-protocol
+  conforms: true
+  evidence: >-
+    JSON-RPC 2.0 MCP endpoint at /app-api/mcp named "Strider MCP" in its protected-resource
+    metadata; tools/list is auth-gated
+- id: openid-connect
+  conforms: false
+  evidence: no /.well-known/openid-configuration on any Strider host
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    errors are a proprietary {"error","code"} envelope on application/json, not
+    application/problem+json
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: no /.well-known/security.txt on www, app or api hosts
+- id: a2a-agent-card
+  conforms: false
+  evidence: >-
+    no agent card at /.well-known/agent-card.json or /.well-known/agent.json on any host;
+    the 200s returned by the app and trust SPAs are HTML catch-alls, not AgentCards
+- id: openapi
+  conforms: false
+  evidence: >-
+    no OpenAPI at any probed location on www, app or api hosts; api.striderintel.com
+    returns a blanket 403
+compliance_program:
+  published: true
+  url: https://trust.striderintel.com/
+  certifications:
+  - SOC 2 Type 2
+  - ISO 27001
+  - ISO 27701
+  - CSA STAR Level 1
+  - UK Cyber Essentials
+  - GDPR
+  - EU-U.S. / UK / Swiss-U.S. Data Privacy Framework
+  - AWS Foundational Technical Review
+  detail: security/strider-trust-center.yml

@@ -1,18 +1,85 @@
 aid: strider
 name: Strider
-description: 'Strider is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Strider Technologies is a Salt Lake City, Utah strategic intelligence
+  company founded in 2019 by former intelligence-community professionals. It transforms
+  publicly available open-source data into AI-powered intelligence that helps government
+  agencies, defense contractors, universities, financial institutions and Fortune 100
+  enterprises identify and mitigate nation-state threats — primarily from China, Russia,
+  North Korea and Iran — targeting their workforce, technology, supply chains and
+  intellectual property. The Strider Strategic Intelligence Platform spans Insights,
+  People Search, Organizations Search, Open Source Software Search, the Data Catalog,
+  the Spark natural-language research agent, and Shield, a curated threat-intelligence
+  dataset of high-risk emails, domains and multilingual keywords that is delivered via
+  API into customer SIEM and DLP systems. The platform is sold direct and through AWS
+  Marketplace under private pricing.'
+image: https://content.striderintel.com/wp-content/uploads/2025/03/1600x900-Site-Twitter-Thumbnail.png
 url: https://raw.githubusercontent.com/api-evangelist/strider/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
 - Company
-apis: []
+- Strategic Intelligence
+- Threat Intelligence
+- Risk Management
+- Security
+- Supply Chain
+- Due Diligence
+- Open Source Intelligence
+- Artificial Intelligence
+- Geopolitical Risk
+apis:
+- name: Strider MCP
+  description: 'Strider''s hosted Model Context Protocol server, published at
+    app.striderintel.com/app-api/mcp. It advertises itself by name ("Strider MCP") in an
+    RFC 9728 protected-resource metadata document and is protected by an OAuth 2.1
+    authorization server with PKCE (S256), refresh tokens and RFC 7591 dynamic client
+    registration. Anonymous tools/list returns 401 MCP_UNAUTHENTICATED with a
+    WWW-Authenticate challenge pointing at the resource metadata, so the live tool set
+    and input schemas require an authenticated Strider customer session.'
+  humanURL: https://app.striderintel.com/
+  baseURL: https://app.striderintel.com/app-api/mcp
+  tags:
+  - MCP
+  - Agent
+  - Threat Intelligence
+  properties:
+  - type: MCPServer
+    url: mcp/strider-mcp.yml
+  - type: Authentication
+    url: authentication/strider-authentication.yml
+  x-evidence:
+    fetched: '2026-08-05'
+    url: https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp
+    http_status: 200
+    note: 'POST tools/list to the baseURL returns HTTP 401 {"error":"Authentication
+      required","code":"MCP_UNAUTHENTICATED"}; a control path /mcp returns 404, so the
+      401 is a real gated endpoint rather than a catch-all.'
+- name: Strider Shield API
+  description: 'Shield is Strider''s curated nation-state threat-intelligence dataset —
+    high-risk email addresses, malicious domains and multilingual risk keywords tied to
+    state-sponsored actors, refreshed monthly. Strider markets it as "delivered via API"
+    for integration into customer SIEM and DLP systems without additional infrastructure.
+    The API host api.striderintel.com is live but answers every path, including a random
+    control path, with HTTP 403 Forbidden; no public reference, OpenAPI or key-issuance
+    flow is published outside a customer agreement.'
+  humanURL: https://www.striderintel.com/shield/
+  baseURL: https://api.striderintel.com/
+  tags:
+  - Threat Intelligence
+  - SIEM
+  - DLP
+  - Email Security
+  x-evidence:
+    fetched: '2026-08-05'
+    url: https://api.striderintel.com/openapi.json
+    http_status: 403
+    note: 'Uniform 403 text/plain "403 Forbidden" on /, /openapi.json, /openapi.yaml,
+      /swagger.json, /v1/openapi.json, /api-docs, /docs, /redoc, /graphql, /health,
+      /.well-known/* and a random control path — a blanket authenticated gate, not a
+      soft 404.'
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +87,69 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://www.striderintel.com/
+- type: DeveloperPortal
+  url: https://app.striderintel.com/
+- type: Documentation
+  url: https://www.striderintel.com/strategic-intelligence/
+- type: SignUp
+  url: https://www.striderintel.com/demo/
+- type: Login
+  url: https://app.striderintel.com/
+- type: Support
+  url: https://www.striderintel.com/contact/
+- type: Blog
+  url: https://www.striderintel.com/blog/
+- type: Newsroom
+  url: https://www.striderintel.com/newsroom/
+- type: Resources
+  url: https://www.striderintel.com/resources/
+- type: Partners
+  url: https://www.striderintel.com/company/partners/
+- type: TermsOfService
+  url: https://www.striderintel.com/company/strider-terms-of-service/
+- type: PrivacyPolicy
+  url: https://www.striderintel.com/company/privacy-policy/
+- type: Compliance
+  url: https://trust.striderintel.com/
+- type: SecondaryMarket
   url: https://forgeglobal.com/strider_stock/
+- type: LLMsTxt
+  url: llms/strider-llms.txt
+- type: WellKnown
+  url: well-known/strider-well-known.yml
+- type: MCPServer
+  url: mcp/strider-mcp.yml
+- type: Authentication
+  url: authentication/strider-authentication.yml
+- type: Conventions
+  url: conventions/strider-conventions.yml
+- type: Conformance
+  url: conformance/strider-conformance.yml
+- type: DomainSecurity
+  url: security/strider-domain-security.yml
+- type: TrustCenter
+  url: security/strider-trust-center.yml
+x-enrichment:
+  date: '2026-08-05'
+  status: enriched
+  artifacts_added: 10
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Strider publishes a real llms.txt and a named, OAuth 2.1-protected MCP server ("Strider
+    MCP") with RFC 8414 and RFC 9728 discovery documents; what remains gated is the tool set
+    itself (anonymous tools/list returns 401 MCP_UNAUTHENTICATED) and the Shield API host,
+    which answers 403 on every path including a control path.
+  evidence:
+  - url: https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp
+    status: 200
+  - url: https://www.striderintel.com/llms.txt
+    status: 200
+  - url: https://app.striderintel.com/app-api/mcp
+    status: 401
+  - url: https://api.striderintel.com/openapi.json
+    status: 403
+  checked: '2026-08-05'

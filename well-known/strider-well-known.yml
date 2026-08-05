@@ -1,0 +1,109 @@
+generated: '2026-08-05'
+method: searched
+source: live probes of the /.well-known/ surface on every Strider host in apis.yml
+note: >-
+  app.striderintel.com and trust.striderintel.com are single-page applications whose
+  catch-all answers HTTP 200 with an HTML shell for ANY path, including a random control
+  path. Only responses whose content-type is application/json and whose body parses as
+  the expected discovery document are recorded as hits below; the HTML 200s are recorded
+  as false positives so a later run does not re-credit them.
+hosts:
+- host: https://app.striderintel.com
+  control_path_status: 200
+  control_path_content_type: text/html
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    spec: RFC 8414 OAuth 2.0 Authorization Server Metadata
+    file: strider-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource/app-api/mcp
+    status: 200
+    content_type: application/json
+    spec: RFC 9728 OAuth 2.0 Protected Resource Metadata
+    file: strider-oauth-protected-resource-mcp.json
+    resource_name: Strider MCP
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all HTML shell, not a discovery document
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all HTML shell, not a discovery document
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all HTML shell, no RFC 9116 document
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all HTML shell
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all HTML shell
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all HTML shell — no A2A Agent Card
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all HTML shell — no legacy A2A Agent Card
+- host: https://www.striderintel.com
+  control_path_status: 404
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    file: ../llms/strider-llms.txt
+    note: Real provider-published llms.txt, saved verbatim under llms/
+- host: https://api.striderintel.com
+  control_path_status: 403
+  note: >-
+    Every path on this host, including a random control path, returns HTTP 403 text/plain
+    "403 Forbidden". Nothing on the /.well-known/ surface is readable anonymously.
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://trust.striderintel.com
+  control_path_status: 200
+  control_path_content_type: text/html
+  note: >-
+    Secureframe-hosted trust center; catch-all answers 200 HTML for every /.well-known/
+    path. No discovery documents found.
+security_txt:
+  present: false
+  note: No RFC 9116 security.txt on any Strider host (404 on www, 403 on api, SPA shell on app).

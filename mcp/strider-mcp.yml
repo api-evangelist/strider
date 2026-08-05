@@ -1,0 +1,66 @@
+generated: '2026-08-05'
+method: searched
+status: published
+source: https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp
+server:
+  name: Strider MCP
+  transport: http
+  url: https://app.striderintel.com/app-api/mcp
+  vendor: Strider Technologies
+  vendor_url: https://www.striderintel.com/
+discovery:
+  protected_resource_metadata: https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp
+  authorization_server_metadata: https://app.striderintel.com/.well-known/oauth-authorization-server
+  www_authenticate: >-
+    Bearer resource_metadata="https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp"
+  resource_name: Strider MCP
+  authorization_servers:
+  - https://app.striderintel.com
+authentication:
+  model: OAuth 2.1 authorization code + PKCE
+  authorization_endpoint: https://app.striderintel.com/app-api/mcp/oauth/authorize
+  token_endpoint: https://app.striderintel.com/app-api/mcp/oauth/token
+  registration_endpoint: https://app.striderintel.com/app-api/mcp/oauth/register
+  revocation_endpoint: https://app.striderintel.com/app-api/mcp/oauth/revoke
+  grant_types:
+  - authorization_code
+  - refresh_token
+  code_challenge_methods:
+  - S256
+  dynamic_client_registration: true
+  scopes_published: false
+  note: >-
+    The RFC 8414 metadata document declares no scopes_supported, so Strider publishes no
+    OAuth scope vocabulary. No scopes/ artifact is emitted rather than invent one.
+tools:
+  status: gated
+  count: unknown
+  note: >-
+    Anonymous POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} to the server returns
+    HTTP 401 {"error":"Authentication required","code":"MCP_UNAUTHENTICATED"}. The live
+    tool set and per-tool inputSchema require an authenticated Strider customer session,
+    so no tool list is recorded here. Strider's llms.txt names the platform capabilities
+    (Insights, People Search, Organizations Search, Open Source Software Search, Shield,
+    Data Catalog, Spark) but does not enumerate MCP tools, so a tool crosswalk cannot be
+    derived and is deliberately not emitted.
+endpoints_probed:
+- path: /app-api/mcp
+  status: 401
+- path: /app-api/mcp/
+  status: 401
+- path: /app-api/mcp/sse
+  status: 401
+- path: /app-api/mcp/v1
+  status: 401
+- path: /app-api/mcp/message
+  status: 401
+- path: /mcp
+  status: 404
+  note: control path — proves the 401s above are a real gated endpoint, not a catch-all
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://app.striderintel.com/app-api/mcp
+  http_status: 401
+  content_type: application/json; charset=utf-8
+  body: '{"error":"Authentication required","code":"MCP_UNAUTHENTICATED"}'
+  request_id_header: x-request-id
