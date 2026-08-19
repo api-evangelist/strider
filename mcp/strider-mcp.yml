@@ -11,8 +11,7 @@ server:
 discovery:
   protected_resource_metadata: https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp
   authorization_server_metadata: https://app.striderintel.com/.well-known/oauth-authorization-server
-  www_authenticate: >-
-    Bearer resource_metadata="https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp"
+  www_authenticate: Bearer resource_metadata="https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp"
   resource_name: Strider MCP
   authorization_servers:
   - https://app.striderintel.com
@@ -29,20 +28,17 @@ authentication:
   - S256
   dynamic_client_registration: true
   scopes_published: false
-  note: >-
-    The RFC 8414 metadata document declares no scopes_supported, so Strider publishes no
-    OAuth scope vocabulary. No scopes/ artifact is emitted rather than invent one.
+  note: The RFC 8414 metadata document declares no scopes_supported, so Strider publishes no OAuth scope
+    vocabulary. No scopes/ artifact is emitted rather than invent one.
 tools:
   status: gated
   count: unknown
-  note: >-
-    Anonymous POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} to the server returns
-    HTTP 401 {"error":"Authentication required","code":"MCP_UNAUTHENTICATED"}. The live
-    tool set and per-tool inputSchema require an authenticated Strider customer session,
-    so no tool list is recorded here. Strider's llms.txt names the platform capabilities
-    (Insights, People Search, Organizations Search, Open Source Software Search, Shield,
-    Data Catalog, Spark) but does not enumerate MCP tools, so a tool crosswalk cannot be
-    derived and is deliberately not emitted.
+  note: Anonymous POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} to the server returns HTTP 401 {"error":"Authentication
+    required","code":"MCP_UNAUTHENTICATED"}. The live tool set and per-tool inputSchema require an authenticated
+    Strider customer session, so no tool list is recorded here. Strider's llms.txt names the platform
+    capabilities (Insights, People Search, Organizations Search, Open Source Software Search, Shield,
+    Data Catalog, Spark) but does not enumerate MCP tools, so a tool crosswalk cannot be derived and is
+    deliberately not emitted.
 endpoints_probed:
 - path: /app-api/mcp
   status: 401
@@ -64,3 +60,10 @@ x-evidence:
   content_type: application/json; charset=utf-8
   body: '{"error":"Authentication required","code":"MCP_UNAUTHENTICATED"}'
   request_id_header: x-request-id
+deployment:
+  mode: remote
+  endpoint: https://app.striderintel.com/app-api/mcp
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census
