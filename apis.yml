@@ -43,6 +43,10 @@ apis:
   baseURL: https://app.striderintel.com/app-api/mcp
   tags:
   - MCP
+  - Agents
+  - Threat Intelligence
+  tags_raw:
+  - MCP
   - Agent
   - Threat Intelligence
   properties:
