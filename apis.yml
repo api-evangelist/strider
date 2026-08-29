@@ -12,6 +12,17 @@ description: 'Strider Technologies is a Salt Lake City, Utah strategic intellige
   dataset of high-risk emails, domains and multilingual keywords that is delivered via
   API into customer SIEM and DLP systems. The platform is sold direct and through AWS
   Marketplace under private pricing.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://content.striderintel.com/wp-content/uploads/2025/03/1600x900-Site-Twitter-Thumbnail.png
 url: https://raw.githubusercontent.com/api-evangelist/strider/refs/heads/main/apis.yml
 x-type: company
