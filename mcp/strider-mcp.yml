@@ -67,3 +67,15 @@ deployment:
   probe: gated
   checked: '2026-08-12'
   source: catalog MCP census
+rfc9728:
+  endpoint: https://app.striderintel.com/app-api/mcp
+  metadata_url: https://app.striderintel.com/.well-known/oauth-protected-resource/app-api/mcp
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://app.striderintel.com/app-api/mcp
+    authorization_servers:
+    - https://app.striderintel.com
+    resource_name: Strider MCP
